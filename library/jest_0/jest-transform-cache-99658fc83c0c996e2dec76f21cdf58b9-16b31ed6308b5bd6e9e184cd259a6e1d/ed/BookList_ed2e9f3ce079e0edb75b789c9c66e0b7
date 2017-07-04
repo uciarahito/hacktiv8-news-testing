@@ -1,0 +1,113 @@
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/media/arahito/ITD/test/phase3/week2/Senin/hacktiv8-news-testing/library/src/components/BookList.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+
+var _axios = require('axios');var _axios2 = _interopRequireDefault(_axios);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+class BookList extends _react2.default.Component {
+    constructor() {
+        super();
+        this.state = {
+            booklist: [] };
+
+    }
+
+    newStateBooklist(data) {
+        this.setState({
+            booklist: [...this.state.booklist, data] });
+
+    }
+
+    addBook() {
+        const newBook = {
+            id: 4,
+            nama_buku: "winter in tokyo",
+            harga: 213000 };
+
+        _axios2.default.post('http://localhost:4000/books', newBook).
+        then(response => {
+            this.newStateBooklist(newBook);
+        }).
+        catch(error => {
+            console.log(`oops, something error when add book: `, error);
+        });
+    }
+
+    removeBook(bookToDeleteId) {
+        this.setState({
+            booklist: this.state.booklist.filter(book => book.id !== bookToDeleteId) });
+
+    }
+
+    deleteBook(id) {
+        _axios2.default.delete('http://localhost:4000/books', id).
+        then(response => {
+            this.removeBook(id);
+        }).
+        catch(error => {
+            console.log(`oops, something error when delete book: `, error);
+        });
+    }
+
+    editBook() {
+
+    }
+
+    fetchAllBook(data) {
+        this.setState({
+            booklist: data });
+
+    }
+
+    componentDidMount() {
+        let self = this;
+
+        _axios2.default.get('http://localhost:4000/books').
+        then(response => {
+            console.log('data semua buku: ', response.data);
+
+            this.fetchAllBook(response.data);
+        }).
+        catch(error => {
+            console.log(`oops, something error when fetch All book: `, error);
+        });
+    }
+
+    render() {
+        return (
+            _react2.default.createElement('div', { __source: { fileName: _jsxFileName, lineNumber: 76 }, __self: this },
+                _react2.default.createElement('h1', { __source: { fileName: _jsxFileName, lineNumber: 77 }, __self: this }, 'Ini BookList'),
+                _react2.default.createElement('table', { style: styles.table, __source: { fileName: _jsxFileName, lineNumber: 78 }, __self: this },
+                    _react2.default.createElement('thead', { __source: { fileName: _jsxFileName, lineNumber: 79 }, __self: this },
+                        _react2.default.createElement('th', { __source: { fileName: _jsxFileName, lineNumber: 80 }, __self: this }, 'No'),
+                        _react2.default.createElement('th', { __source: { fileName: _jsxFileName, lineNumber: 81 }, __self: this }, 'Judul Buku'),
+                        _react2.default.createElement('th', { __source: { fileName: _jsxFileName, lineNumber: 82 }, __self: this }, 'Harga'),
+                        _react2.default.createElement('th', { __source: { fileName: _jsxFileName, lineNumber: 83 }, __self: this }, 'Operasi')),
+
+                    _react2.default.createElement('tbody', { __source: { fileName: _jsxFileName, lineNumber: 85 }, __self: this },
+                        this.state.booklist.map((book, item) => {
+                            return (
+                                _react2.default.createElement('tr', { key: book.id, __source: { fileName: _jsxFileName, lineNumber: 88 }, __self: this },
+                                    _react2.default.createElement('td', { __source: { fileName: _jsxFileName, lineNumber: 89 }, __self: this }, book.id),
+                                    _react2.default.createElement('td', { __source: { fileName: _jsxFileName, lineNumber: 90 }, __self: this }, book.nama_buku),
+                                    _react2.default.createElement('td', { __source: { fileName: _jsxFileName, lineNumber: 91 }, __self: this }, book.harga),
+                                    _react2.default.createElement('td', { __source: { fileName: _jsxFileName, lineNumber: 92 }, __self: this },
+                                        _react2.default.createElement('button', { onClick: () => this.addBook(), __source: { fileName: _jsxFileName, lineNumber: 93 }, __self: this }, 'Add'),
+                                        _react2.default.createElement('button', { __source: { fileName: _jsxFileName, lineNumber: 94 }, __self: this }, 'Edit'),
+                                        _react2.default.createElement('button', { onClick: () => this.deleteBook(book.id), __source: { fileName: _jsxFileName, lineNumber: 95 }, __self: this }, 'Delete'))));
+
+
+
+                        })))));
+
+
+
+
+    }}
+
+
+const styles = {
+    table: {
+        borderStyle: 'solid' } };exports.default =
+
+
+
+BookList;

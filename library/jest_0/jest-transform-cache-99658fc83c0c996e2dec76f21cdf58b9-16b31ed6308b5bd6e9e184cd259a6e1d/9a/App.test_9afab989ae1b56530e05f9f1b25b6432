@@ -1,0 +1,29 @@
+'use strict';var _jsxFileName = '/media/arahito/ITD/test/phase3/week2/Senin/hacktiv8-news-testing/library/src/App.test.js';var _react = require('react');var _react2 = _interopRequireDefault(_react);
+
+var _enzyme = require('enzyme');
+
+var _App = require('./App');var _App2 = _interopRequireDefault(_App);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+describe('<App> component ', () => {
+
+  const appWrapper = (0, _enzyme.shallow)(_react2.default.createElement(_App2.default, { __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: undefined }));
+
+  it('renders correctly', () => {
+    expect(appWrapper).toHaveLength(1);
+  });
+
+  it('render a <BrowserRouter> ', () => {
+    const browserRouterSection = appWrapper.find('BrowserRouter');
+    expect(browserRouterSection).toHaveLength(1);
+  });
+
+  it('render a <div> ', () => {
+    const divSection = appWrapper.find('div');
+    expect(divSection).toHaveLength(1);
+  });
+
+  it('render a <Route> ', () => {
+    const routeSection = appWrapper.find('Route');
+    expect(routeSection).toHaveLength(1);
+  });
+});

@@ -47,10 +47,6 @@ class BookList extends React.Component {
         })
     }
 
-    editBook() {
-
-    }
-
     fetchAllBook(data) {
         this.setState({
             booklist: data
@@ -58,8 +54,6 @@ class BookList extends React.Component {
     }
 
     componentDidMount() {
-        let self = this
-
         axios.get('http://localhost:4000/books')
         .then(response => {
             console.log('data semua buku: ', response.data)
@@ -77,10 +71,12 @@ class BookList extends React.Component {
                 <h1>Ini BookList</h1>
                 <table style={styles.table}>
                     <thead>
-                        <th>No</th>
-                        <th>Judul Buku</th>
-                        <th>Harga</th>
-                        <th>Operasi</th>
+                        <tr>
+                            <th>No</th>
+                            <th>Judul Buku</th>
+                            <th>Harga</th>
+                            <th>Operasi</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.state.booklist.map((book, item) => {
@@ -92,7 +88,7 @@ class BookList extends React.Component {
                                     <td>
                                         <button onClick={() => this.addBook()}>Add</button>
                                         <button>Edit</button>
-                                        <button onClick={() => this.deleteBook(book.id)}>Delete</button>
+                                        <button className="deleteClass" onClick={() => this.deleteBook(book.id)}>Delete</button>
                                     </td>
                                 </tr>
                             )

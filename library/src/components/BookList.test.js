@@ -95,4 +95,36 @@ describe('<BookList> component ', () => {
         const booklistState = bookListWrapper.state('booklist')
         expect(booklistState).toHaveLength(2)
     })
+
+    it('deletes a book when DELETE button clicked', () => {
+        // get the first delete button
+        const bookListWrapper = shallow(<BookList />)
+
+        const actualState = [
+            {
+                "id": 1,
+                "nama_buku": "caricari",
+                "harga": "3434983"
+            },
+            {
+                "id": 2,
+                "nama_buku": "Si Juki",
+                "harga": 10000
+            },
+            {
+                "id": 3,
+                "nama_buku": "indonesia",
+                "harga": "900022"
+            }
+        ]
+        bookListWrapper.instance().fetchAllBook(actualState)
+
+        const bookToDeleted = 2
+        bookListWrapper.instance().removeBook(bookToDeleted)
+
+        const buttonToDelete = bookListWrapper.find('.deleteClass').at(2)
+        buttonToDelete.simulate('click')
+        const booklistState = bookListWrapper.state('booklist')
+        expect(booklistState).toHaveLength(2)
+    })
 })
