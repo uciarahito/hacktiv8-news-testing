@@ -1,0 +1,19 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "nama_buku": "caricari",
+      "harga": "3434983"
+    },
+    {
+      "id": 2,
+      "nama_buku": "Si Juki",
+      "harga": 10000
+    },
+    {
+      "id": 3,
+      "nama_buku": "indonesia",
+      "harga": "900022"
+    }
+  ]
+}
