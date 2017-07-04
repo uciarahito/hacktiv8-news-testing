@@ -1,109 +1,76 @@
 import React from 'react'
-
-import axios from 'axios'
-
-class BookList extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            booklist: []
-        }
-    }
-
-    newStateBooklist(data) {
-        this.setState({
-            booklist: [...this.state.booklist, data]
-        })
-    }
-    
-    addBook() {
-        const newBook = {
-            id: 4,
-            nama_buku: "winter in tokyo",
-            harga: 213000
-        }
-        axios.post('http://localhost:4000/books', newBook)
-        .then(response => {
-            this.newStateBooklist(newBook)
-        })
-        .catch(error => {
-            console.log(`oops, something error when add book: `, error)
-        })
-    }
-
-    removeBook(bookToDeleteId) {
-        this.setState({
-            booklist: this.state.booklist.filter(book => book.id !== bookToDeleteId)
-        })
-    }
-
-    deleteBook(id) {
-        axios.delete('http://localhost:4000/books', id)
-        .then(response => {
-            this.removeBook(id)
-        })
-        .catch(error => {
-            console.log(`oops, something error when delete book: `, error)
-        })
-    }
-
-    fetchAllBook(data) {
-        this.setState({
-            booklist: data
-        })
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:4000/books')
-        .then(response => {
-            console.log('data semua buku: ', response.data)
-
-            this.fetchAllBook(response.data)
-        })
-        .catch(error => {
-            console.log(`oops, something error when fetch All book: `, error)
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Ini BookList</h1>
-                <table style={styles.table}>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Judul Buku</th>
-                            <th>Harga</th>
-                            <th>Operasi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.booklist.map((book, item) => {
-                            return (
-                                <tr key={book.id}>
-                                    <td>{book.id}</td>
-                                    <td>{book.nama_buku}</td>
-                                    <td>{book.harga}</td>
-                                    <td>
-                                        <button onClick={() => this.addBook()}>Add</button>
-                                        <button>Edit</button>
-                                        <button className="deleteClass" onClick={() => this.deleteBook(book.id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
-}
+import { getData } from '../actions'
+import { connect } from 'react-redux' // utk menghubungkan react dgn redux
+import { Link } from 'react-router-dom'
+import BookItem from './BookItem'
 
 const styles = {
-    table: {
-        borderStyle: 'solid'
-    }
+  table: {
+    borderStyle: 'solid'
+  }
 }
 
-export default BookList
+class BookList extends React.Component {
+  renderLoading() {
+    return(
+      <div>
+        <h1>Masih loading</h1>
+      </div>
+    )
+  }
+
+  renderTable() {
+    return(
+      <div>
+        <Link to="/bookaddform"><button>Add Book</button></Link>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th>Jusul Buku</th>
+              <th>Harga</th>
+              <th>Operasi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.bookList.map((item, index) => {
+              return (
+                <BookItem item={item} key={index} />
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+  render() {
+    console.log('booklist di component', this.props.bookList);
+    if (this.props.loading) {
+      return (
+        this.renderLoading()
+      )
+    } else {
+      return(
+        this.renderTable()
+      )
+    }
+  }
+
+  componentDidMount() {
+    this.props.getData()
+  }
+
+}
+
+// selalu terhubung ke props
+const mapStateToProps = state => ({
+  bookList: state.bookList,
+  loading: state.loading
+})
+
+const mapDispatchToProps = dispatch => ({
+  getData: () => {
+    dispatch(getData())
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookList)

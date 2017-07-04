@@ -22,8 +22,8 @@ describe('<App> component ', () => {
     expect(divSection).toHaveLength(1)
   })
 
-  it('render a <Route> ', () => {
+  it('render fours <Route> ', () => {
     const routeSection = appWrapper.find('Route')
-    expect(routeSection).toHaveLength(1)
+    expect(routeSection).toHaveLength(4)
   })
 })

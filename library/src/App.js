@@ -6,6 +6,9 @@ import {
 } from 'react-router-dom'
 
 import BookList from './components/BookList'
+import BookDetail from './components/BookDetail'
+import BookAddForm from './components/BookAddForm'
+import BookEditForm from './components/BookEdit'
 
 class App extends Component {
   render() {
@@ -13,6 +16,9 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Route exact path="/" component={BookList} />
+          <Route path="/bookdetail/:id" component={BookDetail} />
+          <Route path="/bookaddform" component={BookAddForm} />
+          <Route path="/bookeditform" component={BookEditForm} />
         </div>
       </BrowserRouter>
     );
