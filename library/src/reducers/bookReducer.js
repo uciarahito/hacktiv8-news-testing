@@ -6,7 +6,7 @@ let initialState = {
   bookDetail: {}
 }
 
-const getDataStart = state => {
+export const getDataStart = state => {
   let newState = {
     ...state,
     loading: true
@@ -14,7 +14,7 @@ const getDataStart = state => {
   return newState
 }
 
-const getDataSuccess = (state, data) => {
+export const getDataSuccess = (state, data) => {
   let newState = {
     ...state,
     bookList: data,
@@ -23,16 +23,16 @@ const getDataSuccess = (state, data) => {
   return newState
 }
 
-// const getDetail = (state, data) => {
-//   let newState = {
-//     ...state,
-//     bookDetail: data,
-//     loading: false
-//   }
-//   return newState
-// }
+export const getDetail = (state, data) => {
+  let newState = {
+    ...state,
+    bookDetail: data,
+    loading: false
+  }
+  return newState
+}
 
-const addBook = (state, data) => {
+export const addBook = (state, data) => {
   let newState = {
     ...state,
     bookList: [...state.bookList, data],
@@ -41,7 +41,7 @@ const addBook = (state, data) => {
   return newState
 }
 
-const deleteBook = (state, id) => {
+export const deleteBook = (state, id) => {
   let newData = state.bookList.filter(item => item.id !== id)
   let newState = {
     ...state,
@@ -50,7 +50,7 @@ const deleteBook = (state, id) => {
   return newState
 }
 
-const editBook = (state, data) => {
+export const editBook = (state, data) => {
   let newData = state.bookList.map(item => {
     return item.id === data.id ? data : item
   })
@@ -63,18 +63,14 @@ const editBook = (state, data) => {
   return newState
 }
 
-const bookReducer = (state = initialState, {type, payload}) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case actionType.GET_DATA_START:
       return getDataStart(state)
     case actionType.GET_DATA_SUCCESS:
       return getDataSuccess(state, payload)
     case actionType.GET_DETAIL:
-      return {
-        ...state,
-        bookDetail: payload,
-        loading: false
-      }
+      return getDetail(state, payload)
     case actionType.ADD_BOOK:
       return addBook(state, payload)
     case actionType.DELETE_BOOK:
@@ -85,5 +81,3 @@ const bookReducer = (state = initialState, {type, payload}) => {
       return state
   }
 }
-
-export default bookReducer
